@@ -7,7 +7,9 @@
 // * Pensate prima in italiano.
 // * Dividete in piccoli problemi la consegna.
 // * Individuate gli elementi di cui avete bisogno per realizzae il programma.
+//****************************************************************************//
 
+// Functions
 
 /** Genera una array di lunghezza variabile con numeri casuali al suo interno
  * @param min numero casuale più piccolo generabile
@@ -21,27 +23,48 @@ function random5(min, max, length){
   }
   return rndNum;
 }
-
-
+/** Mostra all'interno del DOM i 5 numeri casuali generati.
+ *
+ */
+function showNumbers(){
+  var randomList = random5(min, max, difficulty);
+  //Una volta cominciato il gioco, inserisce i numeri in ciascuna casella.
+  for (var i = 0; i < randomList.length; i++) {
+    show[i].innerHTML = randomList[i];
+  }
+}
+/** Nasconde i 5 numeri casuali
+ *
+ */
+function hideNumbers(){
+   for (var i = 0; i < show.length; i++) {
+     show[i].innerHTML = "X";
+   }
+}
 //****************************************************************************//
 
+//Parte Sincrona
 //Un prompt spiega all'utente le regole del gioco.
 //Una volta che viene inserita una qualsiasi chiave, il gioco inizia.
 
-var start = confirm("Verranno mostrati 5 numeri casuali per 30 secondi. Inseriscili nell'ordine nella casella che apparirà in seguito. Premi [OK] per cominciare");
 
 var difficulty = 5;
 var min = 1;
 var max = 100;
 var show = document.getElementsByTagName('p');
-console.log(show);
-if(start){
-  var list = random5(min, max, difficulty);
-  for (var i = 0; i < list.length; i++) {
-     //console.log(list[i]);
-  }
+var time = 3000;
+var userList = [];
+var start = confirm("Verranno mostrati 5 numeri casuali per " + (time/1000) + " secondi. Inseriscili nell'ordine nella casella che apparirà in seguito. Premi [OK] per cominciare");
+//Quando viene data conferma al messaggio mostrato, il gioco comincia.
+if(start){showNumbers();}
+
+//Parte asincrona
+//Trascorsi 3 secondi i numeri vengono nuovamente nascosti.
+setTimeout(hideNumbers, time); //3 secondi
+
+
+for (var i = 0; i < show.length; i++) {
+  userList[i] = Number(prompt("Inserisci il "+ (i+1) +"° numero"));
 }
 
-
-//Parte sincrona
-//setTimeout(showNumbers, 30000);
+//show[i]
