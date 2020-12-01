@@ -42,13 +42,18 @@ function hideNumbers(){
      show[i].innerHTML = "X";
    }
 }
-
+/** Confronta i numeri della lista generata casualmente con quelli inserito dall'utente.
+ *
+ */
 function insertNum(){
-  var win = false;
-  for (var i = 0; i < show.length; i++) {
+  var win = true;
+  for (var i = 0; i < numbers.length; i++) {
     userList[i] = Number(prompt("Inserisci il "+ (i+1) +"° numero"));
     if (userList[i] === numbers[i]) {
-      win = true;
+      win *= true;
+    }
+    else{
+      win = false;
     }
   }
   return win;
@@ -60,29 +65,35 @@ function insertNum(){
 //Un prompt spiega all'utente le regole del gioco.
 //Una volta che viene inserita una qualsiasi chiave, il gioco inizia.
 
-
 var difficulty = 5;
 var min = 1;
 var max = 100;
 var show = document.getElementsByTagName('p');
-var time = 3000;
+var time = 6000;
 var userList = [];
-var start = confirm("Verranno mostrati 5 numeri casuali per " + (time/1000) + " secondi. Inseriscili nell'ordine nella casella che apparirà in seguito. Premi [OK] per cominciare");
-//Quando viene data conferma al messaggio mostrato, il gioco comincia.
-if(start){
-  var numbers = showNumbers();
-  console.log(numbers);
-}
+var start = confirm("Verranno mostrati 5 numeri casuali per " + (time/1000) + " secondi. Inseriscili nell'ordine nelle caselle che appariranno in seguito. Premi [OK] per cominciare");
 
 
-//Parte asincrona
-//Trascorsi 3 secondi i numeri vengono nuovamente nascosti.
-setTimeout(hideNumbers, time); //3 secondi
-setTimeout(insertNum, time); //3 secondi
+  //Quando viene data conferma al messaggio mostrato, il gioco comincia.
+  if(start){
+    var numbers = showNumbers();
+    console.log(numbers);
+  }
 
-if (insertNum()) {
-  alert("Hai vinto!");
-}
-else{
-  alert("Hai perso...");
-}
+  //Parte asincrona
+
+  setTimeout(function(){
+    //Trascorsi "time/1000" secondi i numeri vengono nuovamente nascosti.
+    hideNumbers();
+
+    //I numeri inseriti dall'utente vengono confrontati con quelli inizialmente mostrati.
+    var win = insertNum();
+    console.log(win);
+    //win = true/false restituita da insertNum().
+    if (win) {
+      alert("Hai vinto!");
+    }
+    else{
+      alert("Hai perso...");
+    }
+  },time);
