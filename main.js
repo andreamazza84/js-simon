@@ -17,11 +17,11 @@
  * @param length numero di valori numerici all'interno dell'array.
  */
 function random5(min, max, length){
-  var rndNum = [];
+  var randomList = [];
   for (var i = 0; i < length; i++) {
-    rndNum[i] = Math.floor(Math.random()*(max - min)) + min;
+    randomList[i] = Math.floor(Math.random()*(max - min)) + min;
   }
-  return rndNum;
+  return randomList;
 }
 /** Mostra all'interno del DOM i 5 numeri casuali generati.
  *
@@ -32,8 +32,9 @@ function showNumbers(){
   for (var i = 0; i < randomList.length; i++) {
     show[i].innerHTML = randomList[i];
   }
+  return randomList;
 }
-/** Nasconde i 5 numeri casuali
+/** Nasconde i 5 numeri casuali mostrati nel DOM
  *
  */
 function hideNumbers(){
@@ -41,6 +42,18 @@ function hideNumbers(){
      show[i].innerHTML = "X";
    }
 }
+
+function insertNum(){
+  var win = false;
+  for (var i = 0; i < show.length; i++) {
+    userList[i] = Number(prompt("Inserisci il "+ (i+1) +"° numero"));
+    if (userList[i] === numbers[i]) {
+      win = true;
+    }
+  }
+  return win;
+}
+
 //****************************************************************************//
 
 //Parte Sincrona
@@ -56,15 +69,20 @@ var time = 3000;
 var userList = [];
 var start = confirm("Verranno mostrati 5 numeri casuali per " + (time/1000) + " secondi. Inseriscili nell'ordine nella casella che apparirà in seguito. Premi [OK] per cominciare");
 //Quando viene data conferma al messaggio mostrato, il gioco comincia.
-if(start){showNumbers();}
+if(start){
+  var numbers = showNumbers();
+  console.log(numbers);
+}
+
 
 //Parte asincrona
 //Trascorsi 3 secondi i numeri vengono nuovamente nascosti.
 setTimeout(hideNumbers, time); //3 secondi
+setTimeout(insertNum, time); //3 secondi
 
-
-for (var i = 0; i < show.length; i++) {
-  userList[i] = Number(prompt("Inserisci il "+ (i+1) +"° numero"));
+if (insertNum()) {
+  alert("Hai vinto!");
 }
-
-//show[i]
+else{
+  alert("Hai perso...");
+}
